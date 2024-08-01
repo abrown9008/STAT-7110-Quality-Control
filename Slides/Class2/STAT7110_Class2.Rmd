@@ -331,7 +331,7 @@ $$ \beta = P[LCL\leq\bar{x}\leq UCL | \mu_1 = \mu_0 + k\sigma] $$
 
 - With a little algebra, we can show that:
 
-$$ \beta = \Phi(L - k/\sqrt{n}) - \Phi(-L - k/\sqrt{n}) $$
+$$ \beta = \Phi(L - k\sqrt{n}) - \Phi(-L - k\sqrt{n}) $$
 
 ## Chart Efficiency: Average Run Length and Operating Characteristic Curves
 
