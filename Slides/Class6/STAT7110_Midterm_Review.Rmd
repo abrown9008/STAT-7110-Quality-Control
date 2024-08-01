@@ -1,0 +1,123 @@
+---
+title: "STAT 7110 Midterm Exam Review Sheet"
+author: "Dr. Austin Brown"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+- What is "quality?" How do we define it for a service organization or a manufacturing organization?
+
+\vskip 0.25 in
+
+- The DMAIC Process. What takes place at each step?
+  a. Define
+  b. Measure
+  c. Analyze
+  d. Improve
+  e. Control
+  
+\vskip 0.25 in
+
+- The Magnificent 7 
+  a. Histogram
+  b. Check Sheet
+  c. Pareto Chart
+  d. Cause-and-Effect Chart
+  e. Defect Concentration Chart
+  f. Scatterplot
+  g. Control Chart
+ 
+ \vskip 0.25 in
+ 
+ - Control Chart Basics
+  a. Plotting Statistic
+  b. In-Control Target Value (Either Known or Estimated)
+  c. Control Limits (Either $\sigma$ or $\alpha$ derived)
+  d. Phase I and Phase II monitoring
+  
+\clearpage
+
+- \textbf{Control Charts for Variables (Continuously Measured)}
+
+\vskip 0.25 in
+
+- The $\bar{X}$ and $R$ Charts
+  a. When would this be appropriate to use?
+  b. How do we estimate the control limits in Phase I? 
+  c. How do we know when we can move on to Phase II monitoring?
+  d. What are some potential limitations with using this monitoring scheme?
+  
+\vskip 0.25 in
+
+- The $\bar{X}$ and $s$ Charts
+  a. When would we want to use this chart instead of the $\bar{x}$ and $R$ chart?
+  b. How do we estimate the control limits in Phase I?
+  c. What are some potential limitations with using this monitoring scheme?
+  
+\vskip 0.25 in
+
+- The $s^2$ Chart
+  a. Why would we use this chart instead of the $s$ chart?
+  b. Why would we refrain from using this chart and go with the $s$ chart instead?
+  
+\vskip 0.25 in
+
+- Control Charts for Individuals and the Moving Range Chart
+  a. When would this chart be appropriate to use?
+  b. What are a couple of the primary limiations of using this charting scheme?
+
+\vskip 0.25 in
+
+- OC Charts and Average Run Length
+  a. What is an OC chart? How is it used?
+  b. What is Average Run Length? Why does it matter to us? 
+  c. What is the difference between in-control Average Run Length and out-of-control average run length?
+
+\vskip 0.25 in
+
+- Process Capability
+  a. Fraction Nonconforming (What is it? How do we calculate it?)
+  b. The $C_p$ Ratio (How do we interpret this?)
+  c. The $p$ Ratio (How do we interpret this?)
+  
+\clearpage
+
+
+- \textbf{Control Charts for Attributes: The Fraction Nonconforming}
+
+\vskip 0.25 in
+
+- The $p$ Chart
+  a. What does this chart monitor? How is it different than the $\bar{x}$ chart?
+  b. How do we calculate control limits in Phase I?
+  c. If $\hat{p} < LCL$, does this mean the process is improving?
+  d. What might be a limitation of using this control chart?
+  
+\vskip 0.25 in
+
+- \textbf{Control Charts for Attributes: The Number of Nonconformities}
+
+\vskip 0.25 in
+
+- The $np$ Chart
+  a. How does this differ from the $p$ chart? How is it similar?
+  b. Why would we use this chart instead of the $p$ chart?
+  c. How do we calculate control limits in Phase I?
+  
+\vskip 0.25 in
+
+- The $C$ Chart
+  a. What is this chart monitoring? What is its defining characteristic?
+  b. How do we set up control limits for this chart in Phase I?
+  c. What are some potential limitations of using this control chart? 
+
+\vskip 0.25 in
+
+- The $U$ Chart
+  a. How does this chart differ from the $C$ chart? How is it similar?
+  b. How do we set up control limits for this chart in Phase I?
+  c. What might be a limitation of using this control chart?

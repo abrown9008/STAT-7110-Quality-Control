@@ -1,0 +1,181 @@
+---
+title: "The EWMA Control Chart"
+author: "Dr. Austin Brown"
+institute: "Kennesaw State University"
+output: beamer_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Introduction
+
+- In the last class, we learned about an alternative method for control charting referred to as the CUSUM chart.
+
+\vskip 0.10 in
+
+- The CUSUM, as we learned, is preferable to Shewhart-style charts when the magnitude of the shift that we are most interested in detecting is relatively small ($< 2\sigma$) as it is more efficient than the Shewhart-style charts in this respect (i.e., smaller $ARL_1$).
+
+\vskip 0.10 in
+
+- While conceptually simple, some of the finer aspects of setting up and operating the control chart (e.g., how to choose $H$ and $K$) may be less intuitive.
+
+\vskip 0.10 in
+
+- Thus, a different control charting technique called the "Exponentially Weighted Moving Average (EWMA)" may be more attractive
+
+## The EWMA Control Chart
+
+- The naming convention of the EWMA control chart sort of describes how it operates. 
+
+\vskip 0.10 in
+
+- Unlike the CUSUM, where the plotting statistic is a function of the deviations away from target, the EWMA control chart "weights" the observations to provide a sort of moving average of the observations. (Note: EWMA can be used as a method for predicting time series values)
+
+\vskip 0.10 in
+
+- This may be advantageous as far as interpretability is concerned as the plotting statistic is a function of the observed values rather than the observed deviances.
+
+## The EWMA Control Chart
+
+- Let's say we take a random sample ($n \geq 1$) and we calculate a sample mean (or the individual value in the case where $n=1$) and we'll call this value $x_i$. 
+
+\vskip 0.10 in
+
+- The plotting statistic for the EWMA control chart is defined as:
+
+$$ z_i = \lambda x_i + (1-\lambda)z_{i-1} $$
+
+- where, $0 < \lambda \leq 1$ and $z_{0} = \mu_0$. With some rearranging, we can see that $z_i$ is the weighted average of all previously observed $x_i$'s.
+
+## The EWMA Control Chart
+
+$$ z_i = \lambda\sum_{j=0}^{i-1}(1-\lambda)^{j}x_{i-j} + (1-\lambda)^iz_0 $$
+- Then, to create control limits, we need to know what the mean of $z_i$ is as well as the variance.
+
+## The EWMA Control Chart
+
+- The mean:
+
+$$ E[z_i] = E\bigg[\lambda\sum_{j=0}^{i-1}(1-\lambda)^{j}x_{i-j} + (1-\lambda)^iz_0\bigg] $$
+$$ \implies \lambda\sum_{j=0}^{i-1}(1-\lambda)^{j}E[x_{i-j}] + (1-\lambda)^iE[z_0] $$
+
+$$ \implies  \lambda\sum_{j=0}^{i-1}(1-\lambda)^{j}\mu_0 + (1-\lambda)^i\mu_0= \mu_0 $$
+
+
+## The EWMA Control Chart
+
+- The variance:
+
+$$ \sigma^2_{z_i}=Var[z_i] = Var\bigg[\lambda\sum_{j=0}^{i-1}(1-\lambda)^{j}x_{i-j} + (1-\lambda)^iz_0\bigg] $$
+
+$$ \implies \lambda^2\sum_{j=0}^{i-1}(1-\lambda)^{2j}Var[x_{i-j}] $$
+
+$$ \implies \sigma^2_{z_i} = \sigma^2_{x_i}\bigg(\frac{\lambda}{2-\lambda}\bigg)(1-(1-\lambda)^{2i}) $$
+
+
+
+## The EWMA Control Chart
+
+- So we can construct our control limits as:
+
+$$ UCL = \mu_0 + L\sqrt{\sigma^2_{x_i}\bigg(\frac{\lambda}{2-\lambda}\bigg)(1-(1-\lambda)^{2i})} $$
+$$ LCL = \mu_0 - L\sqrt{\sigma^2_{x_i}\bigg(\frac{\lambda}{2-\lambda}\bigg)(1-(1-\lambda)^{2i})} $$
+
+
+## The EWMA Control Chart
+
+- Notice as $i\rightarrow\infty$:
+
+$$ UCL = \mu_0 + L\sqrt{\sigma^2_{x_i}\bigg(\frac{\lambda}{2-\lambda}\bigg)} $$
+$$ LCL = \mu_0 - L\sqrt{\sigma^2_{x_i}\bigg(\frac{\lambda}{2-\lambda}\bigg)} $$
+
+- These limits are referred to as the "steady state" limits and are usually obtained around $i = 20 - 30$. However, it is strongly recommended to use the exact limits for smaller values of $i$ as this will avoid issues associated with $ARL$.
+
+## The EWMA Control Chart: Decisions for $L$ and $\lambda$
+
+- General guidance on choosing a value of $\lambda$ is that if you want the chart to be more sensitive to smaller shifts, use a smaller value of $\lambda$ and vice versa. 
+
+\vskip 0.10 in
+
+- We can use $L=3$ as in a Shewhart-style chart and that works pretty well for $ARL_0 \approx 500$. More exact values were given by Lucas and Succucci (1990):
+
+## The EWMA Control Chart: Decisions for $L$ and $\lambda$
+
+\begin{table}[h]
+  \centering
+  \caption{$ARL$ Values for the EWMA Control Chart}
+  \begin{tabular}{l|c|c|c|c|c}
+    \hline
+    \text{Shift in Mean} & $L=3.054$ & 2.998 & 2.962 & 2.814 & 2.615 \\
+    \text{(multiple of $\sigma$)} & $\lambda = 0.40$ & 0.25 & 0.20 & 0.10 & 0.05 \\
+    \hline
+    0 & 500 & 500 & 500 & 500 & 500 \\
+    0.25 & 224 & 170 & 150 & 106 & 84.1 \\ 
+    0.50 & 71.2 & 48.2 & 41.8 & 31.3 & 28.8 \\
+    0.75 & 28.4 & 20.1 & 18.2 & 15.9 & 16.4 \\
+    1.00 & 14.3 & 11.1 & 10.5 & 10.3 & 11.4 \\
+    1.50 & 5.9 & 5.5 & 5.5 & 6.1 & 7.1 \\
+    2.00 & 3.5 & 3.6 & 3.7 & 4.4 & 5.2 \\
+    3.00 & 2.0 & 2.3 & 2.4 & 2.9 & 3.5 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+
+## The EWMA Control Chart: Examples
+
+- Okay, let's work through some examples. Let's say we want to monitor the amount of time customers spend on hold at a customer service support center. 
+
+\vskip 0.10 in
+
+- Suppose the target hold time is $\mu_0 = 10$ and $\sigma = 1$. 
+
+\vskip 0.10 in
+
+- Data for the most recent 30 customers placed on hold are contained in this week's Excel spreadsheet.
+
+## The EWMA Control Chart: Examples
+
+- Now what about Phase I? As may be apparent, we don't really have distributional assumptions. We mostly are just concerned about independence of observations and having a good estimate of the process mean and standard deviation. 
+
+\vskip 0.10 in
+
+- In the last example, we assumed the process mean and standard deviation were known. What if they're not? Don't we also need to ensure the process is in statistical control before moving on to Phase II analysis? Yes!
+
+\vskip 0.10 in
+
+- Suppose we're the Scranton branch of Dunder-Mifflin. In order for our branch to be profitable, we need to maximize sales and control our operating costs. One such operating cost is the amount of fuel our warehouse delivery trucks use. In the second sheet of this week's class data, we have the past 24 months fuel costs. Let's estimate the mean and standard deviation and see if the process is in control.
+
+
+## The EWMA Control Chart: Correlated Observations
+
+- One of the main assumptions of the EWMA chart is that the observations are independent of each other (e.g., no covariance/correlation between two observations).
+
+\vskip 0.10 in
+
+- What happens if this isn't reasonably met? The EWMA chart's ARL performance will suffer. Why?
+
+\vskip 0.10 in
+
+- If two variables are dependent on each other, then the variance of their sum is:
+
+$$ Var[X+Y] = Var[X] + Var[Y] + 2COV[X,Y] $$
+
+## The EWMA Control Chart: Correlated Observations
+
+- Depending on the directionality of the relationship, variance could go up or down. 
+
+\vskip 0.10 in
+
+- If we have positive covariance, then this means our variance is greater than what the EWMA chart assumes and our false alarm rate, $\alpha$ will increase. On the other hand, the chart will be incredibly sensitive to small shifts.
+
+\vskip 0.10 in
+
+- If we have negative covariance, then our variance is less than what the EWMA chart assumes and our false alarm rate will become quite tiny and very insensitive to shifts. 
+
+\vskip 0.10 in
+
+- It is then important to be reasonably sure that our observations are not significantly correlated before using this chart. 
+    - Interestingly, this topic is the subject of Dr. VanBrackle's dissertation and one published manuscript in 1997.

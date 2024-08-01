@@ -1,0 +1,282 @@
+---
+title: "S & S-Squared Control Charts"
+author: "Dr. Austin Brown"
+institute: "Kennesaw State University"
+output: beamer_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Table of Contents
+
+1. $\bar{X}$ and $s$ Charts
+2. $\bar{X}$ and $s^2$ Charts
+3. Control Charts for Individual Measurements
+
+## Introduction
+
+- In last week's class, we learned how to estimate a univariate process's mean and stanard deviation using the sample mean,($\hat{\mu} = \bar{X}$), and mean of the sample ranges scaled by $d_2$, ($\hat{\sigma} = \bar{R}/d_2$).
+
+\vskip 0.10 in
+
+- When we're estimating parameters in general, one of the properties we like to have in an estimator is that it is consistent, which generally means that as our sample size increases, the estimator gets closer to the true value of the parameter.
+
+\vskip 0.10 in
+
+- The sample range does not have this property. While your text says this occurs when $n$ is roughly 10 or greater, more recent studies suggeset is occurs in samples as small as $n=2$.
+
+## Introduction
+
+- Obviously, it is in our best interest to have a good estimate of the process's standard deviation as this estimate is relied upon for both Phase II monitoring as well as capability analysis.
+
+\vskip 0.10 in
+
+- In this class, we will learn about how to use the sample variance, $s^2$, and sample standard deviation, $s$, when working with Shewhart $\bar{X}$-charts.
+
+## The Shewhart $\bar{X}$ and $s$ Charts
+
+- As your text states, when we have a relatively large sample or when our sample size is variable from trial to trial, it is advised to use the $\bar{X}$ and $s$ Charts instead of the $\bar{X}$ and $R$ charts. 
+
+\vskip 0.10 in
+
+- The general principles behind the former chart are similar to what the charts we'll be discussing today.
+
+\vskip 0.10 in
+
+- So if we want to use $s$ instead of $\bar{R}/d_2$ as our estimate for process standard deviation, how does this change our control limits?
+
+## The Shewhart $\bar{X}$ and $s$ Charts
+
+- First, you probably know this already but just as a reminder, we will be using the unbiased estimator $s^2$ to estimate process variance:
+
+$$ s^2 = \frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar{x})^2 $$
+- As it is customary to use the square root of this estimator to estimate process standard deviation, let
+
+$$ s = \sqrt{s^2} $$
+
+## The Shewhart $\bar{X}$ and $s$ Charts
+
+- However, $s$ is a biased estimator of $\sigma$. In fact, it can be shown:
+
+$$ E[s] = \sigma\sqrt{\frac{2}{n-1}}\frac{\Gamma(n/2)}{\Gamma((n-1)/2)} $$
+
+- We typically refer to the scaling constant as:
+
+$$ c_4 = \sqrt{\frac{2}{n-1}}\frac{\Gamma(n/2)}{\Gamma((n-1)/2)} $$
+
+## The Shewhart $\bar{X}$ and $s$ Charts
+
+- If we know $\sigma$, the $s$ chart's control limits are:
+
+$$ UCL = c_4\sigma + 3\sigma\sqrt{1-c_4^2} $$
+$$ LCL = c_4\sigma - 3\sigma\sqrt{1-c_4^2} $$
+
+
+## The Shewhart $\bar{X}$ and $s$ Charts
+
+- If we're using 3 $\sigma$ limits, then we can slightly modify the control limits to:
+
+$$ UCL = B_6\sigma $$
+$$ LCL = B_5\sigma $$
+
+- Remember, all of these constants can be found online at <https://web.mit.edu/2.810/www/files/readings/ControlChartConstantsAndFormulae.pdf>. 
+
+## The Shewhart $\bar{X}$ and $s$ Charts
+
+- Typically, we do not know what $\sigma$ is so we have to estimate it in Phase I. 
+
+\vskip 0.10 in
+
+- Like with the $R$-chart, in Phase I, we get an unbiased estimate of $\sigma$ by taking $m$ samples of size $n$. Then our estimator is:
+
+$$ \hat{\sigma} = \frac{\bar{s}}{c_4} = \frac{1}{mc_4}\sum_{i=1}^{m}s_i $$
+
+## The Shewhart $\bar{X}$ and $s$ Charts
+
+- Now, the control limits for the $s$-chart from before are altered slightly and become:
+
+$$ UCL = \bar{s} + \frac{3\bar{s}}{c_4}\sqrt{1-c_4^2} $$
+$$ LCL = \bar{s} - \frac{3\bar{s}}{c_4}\sqrt{1-c_4^2} $$
+
+- Again, if we are using 3 $\sigma$ limits, we can redefine the control limits for the $s$-chart as:
+
+$$ UCL = B_4\bar{s} $$
+$$ LCL = B_3\bar{s} $$
+
+
+## The Shewhart $\bar{X}$ and $s$ Charts
+
+- Now that we have set up the control limits for the $s$-chart, we can modify our control limits for the $\bar{X}$-chart:
+
+$$ UCL = \bar{\bar{x}} + \frac{3\bar{s}}{c_4\sqrt{n}} $$
+$$ LCL = \bar{\bar{x}} - \frac{3\bar{s}}{c_4\sqrt{n}} $$
+
+- If we are using 3 $\sigma$ control limits, we can rewrite the control limits as:
+
+$$ UCL = \bar{\bar{x}} + A_3\bar{s} $$
+$$ LCL = \bar{\bar{x}} - A_3\bar{s} $$
+
+
+## The Shewhart $\bar{X}$ and $s$ Charts
+
+- Let's go through an example. Let's say the process we're monitoring is the manufacturing of piston rings for car engines. The quality characteristic we're measuring is the inside diameter of the rings, in millimeters. 
+
+\vskip 0.10 in
+
+- I have uploaded $m=25$ samples of size $n=5$ to D2L. Let's calculate our control limits in R.
+
+## The Shewhart $\bar{X}$ an $s$ Charts
+
+- As mentioned at the onset, one of the reasons to use the $s$ chart instead of the $R$ chart is in situations where our sample size varies from sample to sample. 
+
+\vskip 0.10 in
+
+- Such a situation is likely to occur in a situation like our Dunkin customer satisfaction surveys. 
+
+\vskip 0.10 in
+
+- Here, we would have to modify our estimation of both $\mu$ and $\sigma$
+
+
+## The Shewhart $\bar{X}$ and $s$ Charts
+
+$$ \hat{\mu} = \bar{\bar{x}} = \frac{\sum_{i=1}^{m}n_i\bar{x}_i}{\sum_{i=1}^{m}n_i} $$
+
+$$ \bar{s} = \Bigg[\frac{\sum_{i=1}^{m}(n_i-1)s_i^2}{\sum_{i=1}^{m}n_i - m}\Bigg]^{1/2} $$
+
+- Now, to calculate control limits, we have to be careful because $c_4$, $D_3$, $D_4$ and $A_3$ are all dependent on sample size and will thusly change with a change in the sample size. 
+
+
+## The Shewhart $\bar{X}$ and $s$ Charts
+
+- If the sample size doesn't vary wildly and there are lots of samples with the same number of observations, your text suggests taking the average sample standard deviation from those samples with the mode sample size, and using the standard estimate:
+
+$$ \hat{\sigma} = \frac{\bar{s}}{c_4} $$
+
+- However, in my opinion, the criteria for using this method are nebulous, and also omit data points, which could decrease the consistency of the estimator. 
+
+## The $s^2$ Chart
+
+- While the $s$ chart is used quite a lot in industry, there is one reason people may potentially avoid it. 
+
+\vskip 0.10 in
+
+- When our observations come from a normal distribution, and the size of our samples are small ($n < 10$), the sampling distribution of $s$ is asymmetric, and thus, using 3 $\sigma$ limits yields a true $\alpha$ value that is different from the $0.0027$ we expect with such limits. 
+
+\vskip 0.10 in
+
+- Because of this limitation, some may be inclined to use a control chart which is built on the exact statistical properties of the plotting statistic, which is where the $s^2$ chart comes into play.
+
+## The $s^2$ Chart
+
+- We know from prior statistics courses that (again, if the underlying observations come from a normal distribution):
+
+$$ \frac{(n-1)s^2}{\sigma^2} \sim \chi^2(n-1) $$
+
+- Using confidence interval principles, we can see that if the process is in-control that we would expect:
+
+$$ P\bigg[\chi^2_{\alpha/2,n-1} < \frac{(n-1)s^2}{\sigma^2} < \chi^2_{1-\alpha/2,n-1}\bigg] = 1-\alpha $$
+
+## The s^2 Chart 
+
+- Rearranging things a bit:
+
+$$ P\Bigg[\frac{\sigma^2\chi^2_{\alpha/2,n-1}}{n-1} < s^2 < \frac{\sigma^2\chi^2_{1-\alpha/2,n-1}}{n-1}\Bigg] = 1 - \alpha $$
+
+- If we know $\sigma^2$, we can use that, but if we don't, the text suggests collecting $m$ Phase I samples of size $n$, calculating the sample variance for each sample and then using the mean of those variances ($\bar{s}^2$) as your estimator for $\sigma^2$.
+
+## The $s^2$ Chart
+
+- Unfortunately, there is not a built-in function (that I can find) in SAS or R that can automatically generate this control chart for you. 
+
+\vskip 0.10 in
+
+- However, you can create the chart manually. I have included R and SAS code to create the $s^2$ chart using the non-missing piston rings data.
+
+## Control Charts for Individual Measurements
+
+- In practice, there are lots of instances where your sample size may be $n=1$. 
+
+\vskip 0.10 in
+
+- For example, in service industries, we may rather analyze customer satisfaction or time-to-service at the individual level rather than in aggregate. 
+
+\vskip 0.10 in
+
+- We may also encounter this situation in fast-paced manufacturing environments where observations are automatically performed for each unit produced. 
+
+## Control Charts for Individual Measurements
+
+- In these situations where the sample size is $n=1$ \textbf{\underline{and}} the magnitude of a shift away from target is relatively large (i.e., $>2\sigma$), then your text suggests utilization of the Control Chart for Individual Measurements along with a Moving Range Chart. 
+
+\vskip 0.10 in
+
+- The plotting statistic for the CCIM is obviously just a single observed value. For the MR Chart, we define the plotting statistic as:
+
+$$ MR_i = |x_i - x_{i-1}| $$
+
+## Control Charts for Individual Measurements
+
+- The control limits for the CCIM are:
+
+$$UCL = \bar{x} + \frac{3\bar{MR}}{d_2} $$
+$$LCL = \bar{x} - \frac{3\bar{MR}}{d_2} $$
+
+
+- And here, the sample size we use for $d_2$ is $n=2$.
+
+## Control Charts for Individual Measurements
+
+- The control limits for the MR Chart are:
+
+$$UCL = D_4\bar{MR}$$
+$$LCL = D_3\bar{MR}$$
+
+- Let's look at an example of how to generate these charts in R and SAS. In D2L, we're going to use the Mortgage Loan Processing Costs dataset. 
+
+
+## Control Charts for Individual Measurements
+
+- There are a couple of things to be mindful of when interpreting the CCIM and MR Charts, with specific respect to the latter.
+
+\vskip 0.10 in
+
+- As you probably noted, the MR at a current time point is a function of the MR at the previous time point, thusly implying autocorrelation is inherently present.
+
+\vskip 0.10 in
+
+- Resultingly, patterns are likely to show up on the chart that really aren't indicative of a change in process variability at all. In fact, some argue that the MR Chart isn't really all that useful because of this. 
+
+## Control Charts for Individual Measurements
+
+- Additionally, the MR Chart, like the R-chart isn't really all that efficient at measuring changes in process variability because it's really measuring changes in mean level.
+
+\vskip 0.10 in
+
+- With regards to the CCIM, it can be shown that:
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|c|c|c|}
+  \hline
+  \text{Size of Shift} & $\beta$ & $ARL_1$ \\
+  \hline
+  $1\sigma$ & 0.9772 & 43.96 \\
+  $2\sigma$ & 0.8413 & 6.30 \\
+  $3\sigma$ & 0.5000 & 2.00 \\
+  \hline
+  \end{tabular}
+\end{table}
+
+- This means CCIM is highly inefficient at detecting small shifts.
+
+## Control Charts for Individual Measuremnts
+
+- Moreover, CCIM is highly sensitive to non-normality (we don't have the benefit of the CLT with individual observations). 
+
+\vskip 0.10 in
+
+- In fact, the IC-ARL can be deteroriated by over half in the presence of heavy tailed data, such as that which comes from a $t$ distribution with few degrees of freedom. 
+

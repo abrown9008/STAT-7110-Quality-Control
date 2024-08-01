@@ -1,0 +1,248 @@
+---
+title: "Process Capability Analysis"
+author: "Dr. Austin Brown"
+institute: "Kennesaw State University"
+output: beamer_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Introduction
+
+- Back at the beginning of the semester, we were introduced to the concept of process capability analysis.
+
+\vskip 0.10 in
+
+- In general, process capability analysis is a set of procedures/statistical tools that we can use in order to measure process variability, and compare that to technical process specifications.
+
+\vskip 0.10 in
+
+- This is commonly talked about in terms of manufacturing processes, but as we have seen, it can be applied to non-manufacturing processes, too.
+
+
+## Introduction 
+
+- There are three techniques typically used in process capability analysis: histograms, control charts, and designed experiments. 
+
+\vskip 0.10 in
+
+- We will talk a little bit about each and how what we learned in chapter 6 gets incorporated to what we will learn about here. 
+
+
+## Process Capability Analysis using a Histogram
+
+- We all know that a histogram is an incredibly common and useful graphical aid to a statistician.
+
+\vskip 0.10 in
+
+- In SPC, we can use histograms to help us estimate process capability.
+
+\vskip 0.10 in
+
+- However, it is important that we take into consideration data collection prior to plotting a histogram (this is true in Phase I, too).
+
+## Process Capability Analysis using a Histogram
+
+- For example, in a beef processing plant, suppose we measure the weight of what's supposed to be a pound of ground beef. 
+
+\vskip 0.10 in
+
+- Plants like these typically have shifts, so the person or team that's in charge of ground beef processing differs by time of the day. 
+
+\vskip 0.10 in
+
+- If we're only taking measurements from people working the day shift, then we're really just analyzing process capability for that shift, not for the full process. 
+
+## Process Capability Analysis using a Histogram
+
+- Okay, so how does a histogram get used for process capability analysis?
+
+\vskip 0.10 in
+
+- Besides giving us information about the shape of the distribution, we can also get an estimate of the \textit{natural tolerance band}.
+
+\vskip 0.10 in
+
+- The natural tolerance band is calculated by using the natural tolerance limits, which are simply $\mu \pm 3\sigma$.
+
+## Process Capability Analysis using a Histogram
+
+- As we've learned, if a process is normally distributed, then we know by the Empirical Rule that $99.73\%$ of the observations will fall in between $\mu \pm 3\sigma$  which implies that $0.27\%$ will be outside of that band. 
+
+\vskip 0.10 in
+
+- So from our data, we can see the range where most of our values will be. From here, we can assess whether or not the process is capable by further comparing our tolerance limits to the specification limits. 
+
+\vskip 0.10 in
+
+- Let's take a look at an example. 
+
+## Process Capability Analysis using a Histogram
+
+- Suppose we manufacture glass bottles for craft beer. Unlike domestic beers, craft beers are typically "pry top" instead of "twist top" meaning that the cap has to be removed using a bottle opener rather than simply twisting the cap off. 
+
+\vskip 0.10 in
+
+- So during the bottling process, not only do we need bottles that can withstand the pressure of forced carbonation, but we also need them to be strong enough to withstand the pressure of being capped. 
+
+\vskip 0.10 in
+
+- We will take a random sample of 100 bottles we've manufactured for a company and test their burst strength measured in pounds per square inch (psi). The data are contained in Sheet1 of this week's data on D2L.
+
+## Process Capability Analysis: Ratios
+
+- Let's take a second and review the process capability ratio, $C_p$ and $p$.
+
+\vskip 0.10 in
+
+- If we have specification limits, say, $USL$ and $LSL$, and a known standard deviation, $\sigma$, then the process capability ratio, $C_p$ is defined as:
+
+$$ C_p = \frac{USL - LSL}{6\sigma} $$
+
+## Process Capability Analysis: Ratios
+
+- If we don't know $\sigma$, we can estimate is using $\hat{\sigma} = s/c_4$. 
+
+$$ \hat{C}_p = \frac{USL - LSL}{6\hat{\sigma}} $$
+
+- What this ratio answers for us is whether or not the specification band, $USL - LSL$, is greater than ($C_p > 1$) or less than ($C_p < 1$) the natural tolerance band (which commonly aligns with 3-$\sigma$ limits in the $\bar{x}$ and $R$/$s$ charts).
+
+## Process Capability Analysis: Ratios
+
+- If we invert this ratio and multiply by 100, we obtain the $\hat{p}$ ratio:
+
+$$ \hat{p} = \bigg(\frac{1}{\hat{C}_p}\bigg) \times 100\% $$
+
+- This ratio tells us what percentage of the specification band the tolerance band takes up. If this number is less than 100\%, it means that we have a capable process. If not, it means we are producing/observing a high proportion of nonconforming items.
+
+## Process Capability Analysis: Ratios
+
+- There may be some instances where we have one-sided tolerance limits. How can we calculate $C_p$ in such a case?
+
+\vskip 0.10 in
+
+- We simply modify our calculation. So if we only have an upper specification limit:
+
+$$ C_{pu} = \frac{USL - \mu}{3\sigma} $$
+
+
+## Process Capability Analysis: Ratios
+
+- Conversely, if we only have a lower specification limit:
+
+$$ C_{pl} = \frac{\mu - LSL}{3\sigma} $$
+
+- Let's say, for example, in our bottle data, we aren't so worried if the breaking point gets too large. We're much more concerned about low breaking points, and thus, we want to set up a one-sided lower specification limit of 60. What is our estimated $C_{pl}$ and what is the expected process fallout?
+
+## Process Capability Analysis: Ratios
+
+- Note, in order for us to compute the aforementioned ratios, we have a few assumptions which need to be met:
+
+\vskip 0.10 in
+
+1. The process follows a parametric distribution (normal, Poisson, etc.)
+2. The process is in statistical control
+3. In the case of two-sided specification limits, the process mean is centered between the USL and LSL. 
+
+\vskip 0.10 in
+
+- If any of these assumptions aren't met, the conclusions we draw won't be valid.
+
+## Process Capability Analysis: Ratios
+
+- For various processes, your text outlines recommended minimum $C_p$ values:
+
+\begin{table}[h]
+  \centering
+  \caption{Minimum Recommended $C_p$ Ratios}
+  \begin{tabular}{|l|c|c|}
+    \hline
+    \text{Type of Process} & \text{Two-Sided} & \text{One-Sided} \\
+    \hline
+    \text{Existing Process} & 1.33 & 1.25 \\
+    \text{New Process} & 1.50 & 1.45 \\
+    \text{Critical parameter, existing process} & 1.50 & 1.45 \\
+    \text{Critical parameter, new process} & 1.67 & 1.60 \\
+    \hline 
+  \end{tabular}
+\end{table}
+
+## Process Capability Analysis: Off-Centered Processes
+
+- As stated, one of our assumptions for the $C_p$ ratios given before is that the process mean is centered in between the USL and LSL.
+
+\vskip 0.10 in
+
+- Well, what if that's not the case? What if our in-control process is closer to one specification limit or the other?
+
+## Process Capability Analysis: Off-Centered Processes
+
+- Our own Dr. Kane, in 1986, published an article in the Journal of Quality Technology which answered that very question by developing a new, intuitive $C_p$ measure called $C_{pk}$.
+
+$$ C_{pk} = \min(C_{pu},C_{pl}) $$
+
+- If the process is centered, $C_p = C_{pk}$. If this equality doesn't hold, then we can use $C_{p}$ as a target. 
+
+
+## Process Capability Analysis: Off-Centered Processes
+
+```{r, echo=FALSE, out.width="60%",out.height="70%",fig.align='center'}
+knitr::include_graphics("cpk.jpg")
+```
+
+
+## Process Capability Analysis: Off-Centered Processes
+
+- Let's look at a different example. In Sheet 2 of Class 7's Excel file, there are 100 new observations of breaking-point PSI for a different type of glass container.
+
+
+## Process Capability Analysis: Confidence Intervals and Tests 
+
+- Because we are almost always times working with just a subset of observations (i.e., working with sample data), we know that our summary statistics, which includes $\hat{C}_p$, can and will change if we were to take a new sample. 
+
+\vskip 0.10 in
+
+- In light of this, it is sometimes appropriate to provide a confidence interval estimate and/or a hypothesis test to give additional context to the point estimate. 
+
+## Process Capability Analysis: Confidence Intervals and Tests 
+
+- With the assumption of the data being normally distributed holding, it can be shown that the confidence interval for $\hat{C}_p$ is:
+
+$$ \hat{C}_p\sqrt{\frac{\chi^2_{1-\alpha/2}}{n-1}} < C_p < \hat{C}_p\sqrt{\frac{\chi^2_{\alpha/2}}{n-1}} $$
+
+- Here, the $\chi^2$ distribution has $n-1$ degrees of freedom. 
+
+## Process Capability Analysis: Confidence Intervals and Tests
+
+- An example from the text: "Suppose that a stable process has upper and lower specifications at $USL=62$ and $LSL=38$. A sample of size $n=20$ from this process reveals that the process mean is centered approximately at the midpoint of the specification interval and that the sample standard deviation is $s=1.75$. Find a 95\% CI on $C_p$"
+
+## Process Capability Analysis: Confidence Intervals and Tests
+
+- One thing you likely already know is the relationship between confidence intervals and hypothesis tests.
+
+\vskip 0.10 in
+
+- As you know, for a given simple null hypothesis, $H_0: C_{p0} = 1$, for example, we can perform either a one or two tailed alternative through the use of a confidence interval (e.g., $H_1: C_{p0} < 1$, or $H_1: C_{p0} \neq 1$). 
+
+\vskip 0.10 in
+
+- With the two-sided CI we have now, we're testing $H_0: C_{p0} = c$ versus $H_1: C_{p0} \neq c$, where $c$ is some numeric constant, and most likely is 1, but could be something else.
+
+
+## Process Capability Analysis: Confidence Intervals and Tests
+
+- If our two-sided CI contains $c$, then this is the same thing as failing to reject $H_0$. 
+
+\vskip 0.10 in
+
+- If it doesn't contain $c$, then we reject $H_0$.
+
+\vskip 0.10 in
+
+- In our example using the jars data, our CI was: 1.56, 3.01. Thus, if our null was $H_0: C_{p0} = 1$ and our alternative $H_1: C_{p0} \neq 1$, then we have significant evidence to suggest that $C_p$ may indeed be significantly greater than 1.
+
+## Process Capability Analysis: Confidence Intervals and Tests
+
+- Let's look at a couple of other examples. Let's read in the Piston Rings data and calculate a confidence interval for the estimated $C_p$ ratio.

@@ -1,0 +1,71 @@
+---
+title: "OC Curves for the C and U Charts"
+author: "Dr. Austin Brown"
+institute: "Kennesaw State University"
+output: beamer_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,include=TRUE,warning=FALSE,message=FALSE,
+                      tidy=FALSE)
+```
+
+## Introduction
+
+- Last week, we learned about a few new types of charts for monitoring the number of nonconformities in a sample, including the $np$, $C$ and $U$ charts. 
+
+\vskip 0.10 in
+
+- We learned how to calculate Phase I control limits for each of the charts using both SAS and R as well as how to take the Phase I limits and use them in Phase II monitoring.
+
+\vskip 0.10 in
+
+- Where we left off was how to design the chart to be useful in efficiently detecting shifts of various magnitudes with high probability using our old friends the $OC$ curves. 
+
+## OC Curves for the C and U Charts 
+
+- Remember, OC curves are built by modeling the probability of making a Type II error, that is, having a point plot inside the control limits when the process is really out-of-control.
+
+\vskip 0.10 in
+
+- For example, with the $C$ chart, assume the process has shifted from an in-control mean value, $c_0$, to a new value $c_1$.
+
+
+$$ P[LCL < X < UCL | c = c_1] = \beta $$
+$$ P[X < UCL | c=c_1] - P[X < LCL | c=c_1] = \beta $$
+
+
+## OC Curves for the C and U Charts
+
+- Let's look at the circuit boards example from last week. 
+
+\vskip 0.10 in
+
+- After removing the two OOC points, we estimated $\bar{c} = 19.67$, $UCL = 32.97$ and $LCL = 6.36$. 
+
+\vskip 0.10 in
+
+- Let's use R to help us do the rest of the heavy lifting.
+
+
+## OC Curves for C and U Charts
+
+- The $U$ chart is a little bit different. Technically, $u$ is not distributed as a Poisson random variable, so we have to manipulate the formula for calculating $\beta$ before to get it into a known distributional form. 
+
+\vskip 0.10 in
+
+- Remember $u = x/n$ and $x\sim POI(nC)$. Thus:
+
+$$ P[u < UCL|OOC] - P[u < LCL|OOC] = \beta$$  
+$$ P[x/n < UCL|OOC] - P[x/n < LCL | OOC] = \beta $$
+
+$$ P[x < nUCL|OOC] - P[x < nLCL | OOC] = \beta$$
+
+
+## OC Curves for C and U Charts
+
+- Because the control limits multiplied by $n$ are likely not an integer, we practically round the $LCL$ up and the $UCL$ down.
+
+\vskip 0.10 in
+
+- Let's take a look at an example of plotting the OC Curve using the supply chain data from last week. 
