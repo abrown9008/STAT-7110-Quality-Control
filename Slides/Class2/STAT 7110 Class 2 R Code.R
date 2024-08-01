@@ -41,6 +41,9 @@ UCLx <- p1$limits[2]
 
 LCLx <- p1$limits[1]
 
+## Supposing flow contained new data, we can plot our 
+## phase II data by: ##
+
 qcc(flow[,-1],type="xbar",center=cl,limits=c(LCLx,UCLx),plot=TRUE)
 
 ## R Chart ##
@@ -64,3 +67,11 @@ process.capability(p1,spec.limits=c(1,2),target=1.50,std.dev=p1$std.dev,
 
 pnorm(1,mean=p1$center,sd=p1$std.dev) + pnorm(2,mean=p1$center,sd=p1$std.dev,
                                               lower.tail=FALSE)
+
+## Calculating OC-Curve for X-bar Chart ##
+
+qcc::oc.curves.xbar(p1,n=c(5,10,15,20))
+
+## We can see here that as the sample size gets larger
+## we have an increased probability of detecting a shift
+## more quickly. ##

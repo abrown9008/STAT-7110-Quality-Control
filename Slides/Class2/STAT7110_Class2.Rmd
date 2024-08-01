@@ -241,7 +241,7 @@ ggplot() + geom_line(aes(x=x,y=y)) + geom_vline(xintercept=USL,color="red") + ge
 
 ## Process Capability
 
-- In the last example, our specification limits for the USB port width was $0.50 \pm 0.05$ mm. Let's also get an estimate of the process standard deviation by using:
+- In the Wafer example, suppose our specification limits are $1.50 \pm 0.50$. Let's also get an estimate of the process standard deviation by using:
 
 $$ \hat{\sigma} = \frac{\bar{R}}{d_2} = \frac{0.3252}{2.326} \approx 0.1398 $$
 
@@ -251,7 +251,7 @@ $$ P[(x < 1.00)\cup(x > 2.00)] = P[x < 1.00] + (1 - P[x < 2.00]) $$
 $$ \implies P\bigg[Z < \frac{1.00 - 1.5056}{0.1398}\bigg] + \Bigg(1 - P\bigg[\frac{2.00 - 1.5056}{0.1398}\bigg]\Bigg) $$
 $$ \implies P[Z < -3.6166] + (1 - P[Z < 3.5365]) \approx 0.00035 $$
 
-## Introduction to Shewhart $\bar{X}$ and R Charts
+## Process Capability
 
 - The FNC of $0.035\%$ implies that for every 100,000 wafers manufactured, we would expect about 35 to not conform.
 
@@ -265,29 +265,30 @@ $$ C_p = \frac{USL - LSL}{6\sigma} $$
 
 $$\hat{C}_p = \frac{USL - LSL}{6\hat{\sigma}} $$
 
-## Introduction to Shewhart $\bar{X}$ and R Charts
+## Process Capability
 
 - So in our example:
 
 $$ \hat{C}_p = \frac{2.00 - 1.00}{6(0.1398)} \approx 1.192 $$
 
 - Since this number is greater than 1, it implies that process' natural tolerance limits (i.e., process mean plus/minus 3$\sigma$) are inside of the specification limits (which is good!).
+    - In other words, the specification range is 1.192 times the length of the natural tolerance range.
 
 \vskip 0.15 in
 
-- If we take the reciprocal of $\hat{C}_p$ this is more clearly demonstrated:
+- The reciprocal of $\hat{C}_p$ shows the converse:
 
 $$ \hat{p} = \bigg(\frac{1}{\hat{C}_p}\bigg)\times 100\% = \bigg(\frac{1}{1.192}\times 100\% \approx 83.89\%\bigg) $$
 
-## Introduction to Shewhart $\bar{X}$ and R Charts 
+## Process Capability
 
-- This value tells you how much of the specification band ($USL - LSL$) the natural tolerance limits are taking up. 
+- This value tells you the proportion of the specification band ($USL - LSL$) the natural tolerance limits are taking up. 
 
 \vskip 0.15 in
 
 - If $\hat{p} > 100\%$ this means we will be producing a lot of nonconforming units. If it is less than $100\%$, then this is good and means we will be producing a low number of nonconforming units (like we saw in the FNC).
 
-## Introduction to Shewhart $\bar{X}$ and R Charts
+## Process Capability
 
 - One of the key assumptions in using the Shewhart $\bar{X}$ and R Charts is that the underlying monitored process follows a Normal distribution
 
@@ -303,7 +304,7 @@ $$ \hat{p} = \bigg(\frac{1}{\hat{C}_p}\bigg)\times 100\% = \bigg(\frac{1}{1.192}
 
 - In such cases when normality is unknown or cannot be reasonably assumed, it is better to use a nonparametric chart for variables, of which there are many (see Chakraborti et al (2001) for a thorough overview of many of the classics).
 
-## Introduction to Shewhart $\bar{X}$ and R Charts
+## Chart Efficiency: Average Run Length and Operating Characteristic Curves
 
 - To this point, we have learned some techniques for evaluating the capability of a process, but we haven't yet explored how to determine the efficacy of a control charting scheme in general.
 
@@ -318,7 +319,7 @@ $$ \hat{p} = \bigg(\frac{1}{\hat{C}_p}\bigg)\times 100\% = \bigg(\frac{1}{1.192}
 
 - We have two tools available to us for graphically and quantitatively assessing these questions called \textbf{Operating Characteristic Curves} and \textbf{Average Run Length}.
 
-## Introduction to Shewhart $\bar{X}$ and R Charts
+## Chart Efficiency: Average Run Length and Operating Characteristic Curves
 
 - Regarding the OC-Curves, what they basically do is for a given sample size and shift away from target, they plot the probability of making a Type II error, denoted $\beta$, against an increase in the magnitude of the shift.
 
@@ -332,13 +333,13 @@ $$ \beta = P[LCL\leq\bar{x}\leq UCL | \mu_1 = \mu_0 + k\sigma] $$
 
 $$ \beta = \Phi(L - k/\sqrt{n}) - \Phi(-L - k/\sqrt{n}) $$
 
-## Introduction to Shewhart $\bar{X}$ and R Charts
+## Chart Efficiency: Average Run Length and Operating Characteristic Curves
 
 ```{r, echo=FALSE, out.width="75%",out.height="75%",fig.cap="From Figure 6.13 of your text"}
 knitr::include_graphics("OCCxbar.jpg")
 ```
 
-## Introduction to Shewhart $\bar{X}$ and R Charts
+## Chart Efficiency: Average Run Length and Operating Characteristic Curves
 
 - Now this leads us to the second concept of chart performance, Average Run Length or ARL. 
 
@@ -354,7 +355,7 @@ knitr::include_graphics("OCCxbar.jpg")
 
 - So then what's the probability of the chart correctly signaling on the second sample?
 
-## Introduction to Shewhart $\bar{X}$ and R Charts
+## Chart Efficiency: Average Run Length and Operating Characteristic Curves
 
 $$ P[\text{Detect on 2nd Sample}|\text{OOC}] = \beta(1-\beta) $$
 
@@ -366,7 +367,7 @@ $$P[RL=r] = \sum_{i=1}^{r}\beta^{r-1}(1-\beta) $$
 
 $$ ARL = E[RL] = \sum_{i=1}^{\infty}r\beta^{r-1}(1-\beta) = \frac{1}{1-\beta}$$
 
-## Introduction to Shewhart $\bar{X}$ and R Charts
+## Chart Efficiency: Average Run Length and Operating Characteristic Curves
 
 - This ARL value tells us that given our process is out of control, and also given the width of our control limits as well as our sample size, here's how many samples on average it would take for the chart to signal. 
 
@@ -378,7 +379,7 @@ $$ ARL = E[RL] = \sum_{i=1}^{\infty}r\beta^{r-1}(1-\beta) = \frac{1}{1-\beta}$$
 
 - Using a similar logic as before, the IC-RL is also a geometric random variable, but the parameters are flipped as $\alpha$ denotes the probability of a false alarm and $(1-\alpha)$ denotes the probability of not observing a false alarm.
 
-## Introduction to the Shewhart $\bar{X}$ and R Charts
+## Chart Efficiency: Average Run Length and Operating Characteristic Curves
 
 $$ ARL_0 = E[RL_0] = \sum_{r=1}^{\infty}r(1-\alpha)^{r-1}\alpha = \frac{1}{1-(1-\alpha)} $$
 
