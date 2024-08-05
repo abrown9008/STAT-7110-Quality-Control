@@ -4,52 +4,105 @@ library(tidyverse)
 
 ## Phase I X-bar and s Control Charts ##
 
-rings <- readxl::read_xlsx("Piston Rings.xlsx")
+library(readxl)
+
+rings <- read_xlsx("Piston Rings.xlsx")
+
+rings |>
+  glimpse()
+
+## The data are in the wide format we worked with last
+## week ##
 
 ## X-bar ##
 
-sig_hat <- qcc::sd.xbar(rings[,-1])
+library(qcc)
 
-qcc::qcc(rings[,-1],type="xbar",std.dev=sig_hat,plot=TRUE)
+sig_hat <- sd.xbar(rings[,-1]) # This give us s-bar/c4 
+
+qcc(rings[,-1],type="xbar",std.dev=sig_hat,plot=TRUE)
 
 ## S ##
 
-qcc::qcc(rings[,-1],type="S",plot=TRUE)
+qcc(rings[,-1],type="S",plot=TRUE)
+
+## Let's use the Phase I limits and center values in 
+## Phase II using the Phase II rings data: ##
+
+## Read in Phase II data ##
+
+rings2 <- read_xlsx("Phase II rings data.xlsx")
+
+## Save the Phase I limits and center values ##
+
+## Limits ##
+
+xbar_lims <- qcc(rings[,-1],type="xbar",std.dev=sig_hat,plot=FALSE)$limits
+
+s_lims <- qcc(rings[,-1],type="S",plot=FALSE)$limits
+
+## Center Values ##
+
+xbar_center <- qcc(rings[,-1],type="xbar",std.dev=sig_hat,plot=FALSE)$center
+
+s_center <- qcc(rings[,-1],type="S",plot=FALSE)$center
+
+## Phase II X-bar ##
+
+qcc(rings2[,-1],type="xbar",center=xbar_center,limits=xbar_lims,plot=TRUE)
+
+## Phase II S ##
+
+qcc(rings2[,-1],type="S",center=s_center,limits=s_lims,plot=TRUE)
+
+## So we have evidence that the mean has shifted, but not the variance ##
 
 ## Phase I X-bar and s Control Charts w/Variable Sample Size ##
 
-rings1 <- readxl::read_xlsx("Piston Rings - Variable Sample Size.xlsx")
+rings1 <- read_xlsx("Piston Rings - Variable Sample Size.xlsx")
+
+rings1 |>
+  glimpse()
 
 ## X-bar ##
 
-numerator <- apply(rings1[,-1],1,FUN=function(x){
+numerator <- sum(
   
-  (5-sum(is.na(x))-1)*var(x,na.rm=T)
+  apply(rings1[,-1],1,FUN=function(x){
+  
+  sum(!is.na(x))*var(x,na.rm=T)
+  
+  })
+  
+)
+
+denominator <- sum(
+  
+  apply(rings1[,-1],1,FUN=function(x){
+    
+    sum(!is.na(x))
+    
+  })
+  
+)
+
+xdbar <- numerator/denominator
+
+## Specify Sample Sizes ##
+
+n <- apply(rings1[,-1],1,FUN=function(x){
+  
+  sum(!is.na(x))
   
 })
 
-## Check that it worked ##
+## Estimate SD ##
 
-numerator[1]
+## Note, RMSDF will give us the sbar from the notes ##
 
-4*var(as.vector(rings1[1,-1]))
+sbar <- sd.xbar(rings1[,-1],sizes=n,std.dev="RMSDF")
 
-## Calculate the Denominator ##
-
-denom <- apply(rings1[,-1],1,FUN=function(x){
-  
-  5-sum(is.na(x)) - 1
-  
-})
-
-## Check that it worked ##
-## Sample 2 has 3 obs ##
-
-denom[2] # 3 - 1 = 2 #
-
-sig_hat1 <- (sum(numerator)/sum(denom))^0.50
-
-qcc::qcc(rings1[,-1],type="xbar",std.dev=sig_hat1,plot=TRUE)
+qcc(rings1[,-1],type="xbar",sizes = n,center=xdbar,std.dev=sbar,plot=TRUE)
 
 ## S ##
 

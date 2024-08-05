@@ -1,5 +1,5 @@
 ---
-title: "S & S-Squared Control Charts"
+title: "S & S-Squared Control Charts and a Deeper Dive into Process Capability"
 author: "Dr. Austin Brown"
 institute: "Kennesaw State University"
 output: beamer_presentation
@@ -13,11 +13,11 @@ knitr::opts_chunk$set(echo = FALSE)
 
 1. $\bar{X}$ and $s$ Charts
 2. $\bar{X}$ and $s^2$ Charts
-3. Control Charts for Individual Measurements
+3. Additional Process Capability Indices and Techniques
 
 ## Introduction
 
-- In last week's class, we learned how to estimate a univariate process's mean and stanard deviation using the sample mean,($\hat{\mu} = \bar{X}$), and mean of the sample ranges scaled by $d_2$, ($\hat{\sigma} = \bar{R}/d_2$).
+- In last week's class, we learned how to estimate a univariate process's mean and standard deviation using the sample mean,($\hat{\mu} = \bar{X}$), and mean of the sample ranges scaled by $d_2$, ($\hat{\sigma} = \bar{R}/d_2$).
 
 \vskip 0.10 in
 
@@ -25,7 +25,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 \vskip 0.10 in
 
-- The sample range does not have this property. While your text says this occurs when $n$ is roughly 10 or greater, more recent studies suggeset is occurs in samples as small as $n=2$.
+- The sample range does not have this property. While your text says this occurs when $n$ is roughly 10 or greater, more recent studies suggest is occurs in samples as small as $n=2$.
 
 ## Introduction
 
@@ -33,7 +33,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 \vskip 0.10 in
 
-- In this class, we will learn about how to use the sample variance, $s^2$, and sample standard deviation, $s$, when working with Shewhart $\bar{X}$-charts.
+- In this class, we will learn about how to use the sample variance, $s^2$, and sample standard deviation, $s$, when working with Shewhart $\bar{X}$-charts in addition to learning about additional useful techniques in process capability.
 
 ## The Shewhart $\bar{X}$ and $s$ Charts
 
@@ -125,7 +125,7 @@ $$ LCL = \bar{\bar{x}} - A_3\bar{s} $$
 
 \vskip 0.10 in
 
-- I have uploaded $m=25$ samples of size $n=5$ to D2L. Let's calculate our control limits in R.
+- I have uploaded $m=25$ samples of size $n=5$ to D2L. Let's calculate our control limits in R for Phase I analysis. Then, once we've established statistical control, let's use the Phase I limits and center values in Phase II using the Phase II rings data.
 
 ## The Shewhart $\bar{X}$ an $s$ Charts
 
@@ -133,7 +133,7 @@ $$ LCL = \bar{\bar{x}} - A_3\bar{s} $$
 
 \vskip 0.10 in
 
-- Such a situation is likely to occur in a situation like our Dunkin customer satisfaction surveys. 
+- Such a situation is likely to occur in a situation like our coffee shop customer satisfaction surveys. 
 
 \vskip 0.10 in
 
@@ -146,7 +146,7 @@ $$ \hat{\mu} = \bar{\bar{x}} = \frac{\sum_{i=1}^{m}n_i\bar{x}_i}{\sum_{i=1}^{m}n
 
 $$ \bar{s} = \Bigg[\frac{\sum_{i=1}^{m}(n_i-1)s_i^2}{\sum_{i=1}^{m}n_i - m}\Bigg]^{1/2} $$
 
-- Now, to calculate control limits, we have to be careful because $c_4$, $D_3$, $D_4$ and $A_3$ are all dependent on sample size and will thusly change with a change in the sample size. 
+- Now, to calculate control limits, we have to be careful because $c_4$, $D_3$, $D_4$ and $A_3$ are all dependent on sample size and will thus change with a change in the sample size. 
 
 
 ## The Shewhart $\bar{X}$ and $s$ Charts
