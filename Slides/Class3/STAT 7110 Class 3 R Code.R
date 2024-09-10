@@ -70,7 +70,7 @@ numerator <- sum(
   
   apply(rings1[,-1],1,FUN=function(x){
   
-  sum(!is.na(x))*var(x,na.rm=T)
+  sum(!is.na(x))*mean(x,na.rm=T)
   
   })
   
@@ -102,11 +102,11 @@ n <- apply(rings1[,-1],1,FUN=function(x){
 
 sbar <- sd.xbar(rings1[,-1],sizes=n,std.dev="RMSDF")
 
-qcc(rings1[,-1],type="xbar",sizes = n,center=xdbar,std.dev=sbar,plot=TRUE)
+qcc(rings1[,-1],type="xbar",sizes = n,center=xdbar,plot=TRUE)
 
 ## S ##
 
-qcc::qcc(rings1[,-1],type="S",center=sig_hat1,std.dev=sig_hat1,plot=TRUE)
+qcc(rings1[,-1],type="S",center=sbar,plot=TRUE)
 
 ## Code for Generating Phase I s^2 Chart (Fixed Sample Size) ##
 
@@ -134,13 +134,49 @@ ssquared.p1(rings[,-1],alpha=0.0027)
 
 ## Control Charts for Individuals ##
 
-mortgages <- readxl::read_xlsx("Mortgage Loan Costs.xlsx")
+mortgages <- read_xlsx("Mortgage Loan Costs.xlsx")
 
-qcc::qcc(mortgages$Cost,type="xbar.one",plot=TRUE)
+qcc(mortgages$Cost,type="xbar.one",plot=TRUE)
 
 ## Control Chart for Moving Range ##
 
 library(ggQC)
 
-ggplot(mortgages, aes(x=Week, y = Cost)) +
+mortgages |>
+  ggplot(aes(x=Week, y = Cost)) +
   stat_mR() + ylab("Moving Range")
+
+## Read in Battery Voltage Phase I Data ##
+
+battery <- read_xlsx("Battery Voltage Phase I Data.xlsx")
+
+battery |>
+  glimpse()
+
+## Generate Phase I X-Bar & S Charts ##
+
+sig_hat <- sd.xbar(battery[,-1])
+
+p1x <- qcc(battery[,-1],type="xbar",std.dev=sig_hat,plot=TRUE)
+
+qcc(battery[,-1],type="S",plot=TRUE)
+
+## Okay good! It looks like the process is in-control. Now, 
+## let's calculate Cp ##
+
+## Cp ##
+
+process.capability(p1x,spec.limits=c(1.4,1.6),target=1.5,nsigmas=3)
+
+## Cp = 1.61, which means that the difference between USL & LSL is 1.61 times
+## the difference between UCL & LCL. This is good, but as we can see from the
+## histogram, misleading. ##
+
+## FNC ##
+## From the chart, Exp<LSL + Exp>USL = 0.04% = 0.0004. This is good. ##
+
+## Cpk ##
+
+## From the chart, we can see that Cpk is 1.12, which is potentially okay,
+## but certainly not as positive of a picture as Cp was giving to us ##
+

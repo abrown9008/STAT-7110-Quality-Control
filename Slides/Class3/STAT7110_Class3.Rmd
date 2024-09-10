@@ -189,11 +189,11 @@ $$ P\Bigg[\frac{\sigma^2\chi^2_{\alpha/2,n-1}}{n-1} < s^2 < \frac{\sigma^2\chi^2
 
 ## The $s^2$ Chart
 
-- Unfortunately, there is not a built-in function (that I can find) in SAS or R that can automatically generate this control chart for you. 
+- Unfortunately, there is not a built-in function (that I can find) in R that can automatically generate this control chart for you. 
 
 \vskip 0.10 in
 
-- However, you can create the chart manually. I have included R and SAS code to create the $s^2$ chart using the non-missing piston rings data.
+- However, you can create the chart manually. I have included R code to create the $s^2$ chart using the non-missing piston rings data.
 
 ## Control Charts for Individual Measurements
 
@@ -234,7 +234,7 @@ $$LCL = \bar{x} - \frac{3\bar{MR}}{d_2} $$
 $$UCL = D_4\bar{MR}$$
 $$LCL = D_3\bar{MR}$$
 
-- Let's look at an example of how to generate these charts in R and SAS. In D2L, we're going to use the Mortgage Loan Processing Costs dataset. 
+- Let's look at an example of how to generate these charts in R. In D2L, we're going to use the Mortgage Loan Processing Costs dataset. 
 
 
 ## Control Charts for Individual Measurements
@@ -278,5 +278,172 @@ $$LCL = D_3\bar{MR}$$
 
 \vskip 0.10 in
 
-- In fact, the IC-ARL can be deteroriated by over half in the presence of heavy tailed data, such as that which comes from a $t$ distribution with few degrees of freedom. 
+- In fact, the IC-ARL can be deteriorated by over half in the presence of heavy tailed data, such as that which comes from a $t$ distribution with few degrees of freedom. 
 
+## Deeper Dive into Process Capability
+
+- Remember from last week, process capability analysis is a set of procedures/statistical tools that we can use in order to measure process variability, and compare that to technical process specifications.
+
+\vskip 0.10 in
+
+- This is commonly talked about in terms of manufacturing processes, but as we have seen, it can be applied to non-manufacturing processes, too.
+
+\vskip 0.10 in
+
+- We have seen how we can use the $C_p$ index to measure process capability as well as how we can use the humble histogram to compare process variability to technical specifications.
+
+## Deeper Dive into Process Capability: $C_{pk}$ and $C_{pm}$
+
+- However, there are other indices that can be used to measure process capability.
+
+\vskip 0.10 in
+
+- For example, with the $C_p$ index, we are assuming that the process is centered on the target value.
+
+\vskip 0.10 in
+
+- That is, we are assuming that the process mean lies directly between the upper and lower specification limits.
+    - This also implies that we are assuming that $\bar\bar{{x}}$ is equal to the target value set by specification.
+
+\vskip 0.10 in
+
+- This might not always be reasonable!
+
+## Deeper Dive into Process Capability: $C_{pk}$ and $C_{pm}$
+
+- Let's consider the example from last week. Suppose we are manufacturing USB sticks. The target value for their width is 0.5 mm, the USL is 0.55 mm and the LSL is 0.45 mm.
+
+\vskip 0.10 in
+
+- The process is considered "centered" if our estimate for $\bar{\bar{x}} \approx 0.5$ mm. If not, then the process is considered "off-center".
+
+\vskip 0.10 in
+
+- Let's take a look at how this might appear in a histogram.
+
+## Deeper Dive into Process Capability: $C_{pk}$ and $C_{pm}$
+
+```{r,echo=F}
+## Example of a Centered Process ##
+set.seed(123)
+n <- 1000
+x <- rnorm(n,mean=0.5,sd=0.02)
+library(ggplot2)
+ggplot(data.frame(x=x),aes(x=x)) + 
+  geom_histogram(bins=nclass.Sturges(x),fill="white",color="black") + 
+  geom_vline(xintercept=0.5,color="red",linetype="dashed") +
+  geom_vline(xintercept=0.45,color='red',linetype='dashed') +
+  geom_vline(xintercept=0.55,color='red',linetype='dashed') +
+  labs(title="A Centered Process") +
+  theme_minimal() +
+  theme(plot.title=element_text(hjust=0.5))
+```
+
+## Deeper Dive into Process Capability: $C_{pk}$ and $C_{pm}$
+
+```{r,echo=F}
+## Example of an Off-Centered Process ##
+n <- 1000
+x <- rnorm(n,mean=0.53,sd=0.02)
+ggplot(data.frame(x=x),aes(x=x)) + 
+  geom_histogram(bins=nclass.Sturges(x),fill="white",color="black") + 
+  geom_vline(xintercept=0.5,color="red",linetype="dashed") +
+  geom_vline(xintercept=0.45,color='red',linetype='dashed') +
+  geom_vline(xintercept=0.55,color='red',linetype='dashed') +
+  labs(title="An Off-Centered Process") +
+  theme_minimal() +
+  theme(plot.title=element_text(hjust=0.5))
+```
+
+## Deeper Dive into Process Capability: $C_{pk}$ and $C_{pm}$
+
+- As we can see, that if we incorrectly assume that the process is centered, we may greatly overestimating the process's capability.
+
+\vskip 0.10 in
+
+- How do we address this problem? We have a few different ways but one of which is to use the $C_{pk}$ index, first introduced by KSU's own Dr. Victor Kane.
+
+## Deeper Dive into Process Capability: $C_{pk}$ and $C_{pm}$
+
+- The $C_{pk}$ index is defined as:
+
+$$ \hat{C}_{pk} = \text{min}\Bigg[\frac{USL - \bar{\bar{x}}}{3s},\frac{\bar{\bar{x}} - LSL}{3s}\Bigg] $$
+
+## Deeper Dive into Process Capability: $C_{pk}$ and $C_{pm}$
+
+- This measure is interpreted in a manner very similar to the $C_p$ index.
+    - That is, if $\hat{C}_{pk} > 1$, then the process is considered to be capable.
+    - If $\hat{C}_{pk} < 1$, then the process is considered to be incapable.
+    
+\vskip 0.10 in
+
+- The $C_{pk}$ index is a measure of how well the process is centered on the target value by focusing on which of the two specification limits is closer to the process mean.
+
+## Deeper Dive into Process Capability: $C_{pk}$ and $C_{pm}$
+
+- Let's look at a new example. Suppose we are manufacturing a new type of battery. The target value for the battery's voltage is 1.5 volts, the USL is 1.6 volts and the LSL is 1.4 volts.
+
+\vskip 0.10 in
+
+- The Phase I data for the battery's voltage is in the file "Battery Voltage Phase I Data.xlsx". Let's first determine if the process is in statistical control. Then, let's calculate the $\hat{C}_p$, the $FNC$, and the $\hat{C}_{pk}$ indices for the battery's voltage.
+
+## Deeper Dive into Process Capability: $C_{pk}$ and $C_{pm}$
+
+- So far, we have seen how we can use the $C_p$ and $C_{pk}$ indices to measure process capability. 
+
+\vskip 0.10 in
+
+- However, there is another index that we can use to measure process capability, the $C_{pm}$ index.
+
+\vskip 0.10 in
+
+- With $C_p$ and $C_{pk}$, we account for the process's variability through our estimate $\hat{\sigma} = \bar{s}/c_4$. 
+
+\vskip 0.10 in
+
+- However, we don't account for the process's centering, which we can quantify by $\bar{\bar{x}} - \text{Target}$.
+    - Note, sometimes we just use $T$ to mean "Target". 
+    
+## Deeper Dive into Process Capability: $C_{pk}$ and $C_{pm}$
+
+- This is where the $C_{pm}$ index comes in.
+
+\vskip 0.10 in
+
+- The $C_{pm}$ index is defined as:
+
+$$ \hat{C}_{pm} = \frac{USL - LSL}{6\sqrt{\hat{\sigma}^2 + (\bar{\bar{x}} - T)^2}} $$
+
+- Here, we can use $s^2 = \hat{\sigma}^2$.
+
+## Deeper Dive into Process Capability: $C_{pk}$ and $C_{pm}$
+
+- With this measure, we are penalizing the process for being off-center in our estimate of the process's capability.
+
+\vskip 0.10 in
+
+- As the process becomes more off-centered, which means that $\bar{\bar{x}}$ is further from the target value, $T$, the $C_{pm}$ index will decrease and give us an indication of poorer process capability compared to $C_p$ and $C_{pk}$.
+
+## Deeper Dive into Process Capability: $C_{pk}$ and $C_{pm}$
+
+- In the \texttt{process.capability} function in R, $C_{pm}$ is output by default. We can see in the Battery Voltage example that $C_{pm} < C_{pk} < C_p$.
+
+\vskip 0.10 in
+
+- And in this case, since $C_{pm} < 1$, we would say that the process is incapable.
+
+\vskip 0.10 in
+
+- Note, there is a metric called $C_{pmk}$ which is calculated in a manner similar to $C_{pk}$ but with $C_{pm}$ in place of $C_p$.
+
+## Conclusion
+
+- In this class, we learned about how to use the sample variance, $s^2$, and sample standard deviation, $s$, when working with Shewhart $\bar{X}$-charts in addition to learning about additional useful techniques in process capability.
+
+\vskip 0.10 in
+
+- We also learned about the $C_{pk}$ and $C_{pm}$ indices and how they can be used to measure process capability.
+
+\vskip 0.10 in
+
+- In the next class, we will learn about how to use the CUSUM and EWMA control charts as alternatives to the Shewhart $\bar{X}$ chart for monitoring a univariate continuous process.

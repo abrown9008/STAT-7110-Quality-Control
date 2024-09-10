@@ -1,0 +1,189 @@
+---
+title: "Cumulative Summation Control Charts"
+author: "Dr. Austin Brown"
+institute: "Kennesaw State University"
+output: beamer_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,message=FALSE,warning=FALSE,tidy=FALSE)
+```
+
+## Introduction
+
+- To this point, we have primarily been discussing Shewhart-style charts
+
+\vskip 0.10 in
+
+- The $\bar{x}$, $R$, $s$, $s^2$, $p$, $C$, and $U$ charts are all Shewhart-style which means we have:
+
+    1. A sample plotting statistic
+    2. An upper and possibly lower control limit based on the in-control sampling distribution of the plotting statistic
+    3. An assumption of independence between observations
+    
+## Introduction
+
+- Shewhart-style charts are useful for (1) efficiently detecting large shifts ($>2\sigma$) and (2) ease of interpretation and set up.
+
+\vskip 0.10 in
+
+- However, it also has limitations:
+    1. Since we assume independence, the only information Shewhart-style charts take into consideration is contained in the most recently observed point (the whole sequence is not considered).
+    2. It is inefficient at detecting smaller shifts ($< 1.5\sigma$). 
+    3. Use of runs rules/warning limits etc., impede the interpretability of the charts
+    4. Not effective when $n=1$
+    
+\vskip 0.10 in
+
+- This leads to the need for new types of control charts which address these two limitations, one of which is called the "Cumulative Summation (CUSUM)" control chart. 
+
+
+## CUSUM Chart
+
+```{r, echo=FALSE, out.width="60%",out.height="70%",fig.align='center'}
+knitr::include_graphics("Shewhartlimitation.jpg")
+```
+
+## CUSUM Chart
+
+- As we can see in this prior example, the first 20 observations come from a normal distribution with mean 10 and standard deviation 1. The following 10 come from a normal distribution with mean 11 and standard deviation 1. 
+
+\vskip 0.10 in
+
+- If we only rely upon the control limits, we would not stop the process to search for an assignable cause despite a shift having taken place. 
+
+\vskip 0.10 in
+
+- So how does the CUSUM chart solve this problem?
+
+## CUSUM Chart
+
+- The CUSUM chart was proposed by Page (1954). Here's the concept:
+
+\vskip 0.10 in
+
+- Let's say we want to monitor the mean of a process and this process has a target value, say $\mu_0$. To monitor the process, we still take random samples and obtain an estimate of the sample mean, say $\bar{x}_i$. 
+
+\vskip 0.10 in
+
+- Instead of plotting the individual value of $\bar{x}_i$ itself, we take the deviance between the target value and the sample mean, $\bar{x}_i - \mu_0$. 
+
+## CUSUM Chart
+
+- Then, the cumulative summation component is that the plotting statistic is a function of the cumulative sum of the deviances. 
+
+$$ C_i = \sum_{j=1}^{i}(\bar{x}_i - \mu_0) $$
+
+- Here, the idea is that if the process starts to drift upwards or downwards, those cumulative differences will eventually signal to us that a shift has occurred. Notice that we are taking all $\bar{x}_i$'s into consideration instead of just the latest one!
+
+
+## CUSUM Chart
+
+- What you'll likely notice from the previous $C_i$ is that its distribution is non-stationary. If you've taken time series, you'll know that this means that either the mean or the variance change with time.
+
+\vskip 0.10 in
+
+- If we assume $\bar{x}_i$ is normally distributed with mean $\mu_0$ and variance $\sigma^2/n$, then:
+
+$$ C_i = \sum_{j=1}^{i}(\bar{x}_i - \mu_0) \dot{\sim} N\bigg(0, \frac{i\sigma^2}{n}\bigg) $$
+
+## CUSUM Chart
+
+- This may serve as a limitation if we were to construct control limits in a Shewhart-style manner as the limits will change over time and also won't approach an asymptote.
+
+\vskip 0.10 in
+
+- Consequently, there have been two proposed variants to the CUSUM chart to help solve this problem, but we will only focus on the one that's mostly used in practice: the \textbf{Tabular} CUSUM. 
+
+## CUSUM Chart
+
+- The plotting statistic for the Tabular CUSUM is actually two statistics, an upper and a lower CUSUM:
+
+
+$$ C^{+} = \max[0, \bar{x}_i - (\mu_0 + K) + C_{i-1}^{+}] $$
+$$ C^{-} = \max[0, (\mu_0 - K) - \bar{x}_i + C_{i-1}^{-}] $$
+
+where, $C^+_{0} = C^{-}_{0} = 0$ and $K$ is referred to as the "slack" or "allowance" value.
+
+## CUSUM Chart
+
+- Typically, $K$ is chosen to be the midpoint between our target value, $\mu_0$ and an out-of-control value, $\mu_1$, that we're interested in quickly detecting:
+
+$$ K = \frac{|\mu_1 - \mu_0|}{2} $$
+
+- $C^{+}$ is for detecting upward shifts ($\mu_1 > mu_0$) and $C^{-}$ is for detecting downward shifts ($\mu_1 < \mu_0$). 
+
+\vskip 0.10 in
+
+- If either $C^{+}_i$ or $C^{-}_i$ exceed some control limit, say $H$, this signals to us that the process may be OOC.
+
+## CUSUM Chart
+
+- Let's look at an example using the data used in the example where the process mean shifted from 10 to 11. 
+
+## CUSUM Chart
+
+- If a shift has taken place, it is often useful information to see what the new mean (or other characteristic that you're monitoring) has shifted to.
+
+\vskip 0.10 in
+
+- To do this, your text recommends using:
+
+$$ \hat{\mu} = \mu_0 + K + \frac{C_i^{+}}{N^{+}}, \quad C_{i}^{+} > H $$
+$$ \hat{\mu} = \mu_0 - K - \frac{C_i^{-}}{N^{-}}, \quad C_{i}^{-} > H $$
+
+- $C_i^+$ and $C_i^-$ denote the upper and lower CUSUM values associated with the first OOC point, and $N^+$ and $N^-$ denote the number of non-zero $C_i^+$ and $C_i^-$ values in the sequence which eventually lead to the OOC point. Let's go ahead and estimate the new mean in our example. 
+
+## CUSUM Chart Design
+
+- In the last example, we used a CUSUM control chart where $H=5$ and $K=0.50$. How do we choose those values? 
+
+\vskip 0.10 in
+
+- Generally, the rule of thumb is to define $H = h\sigma$ and $K = k\sigma$, where $h=4$ or $5$ and $k=0.50$. So for a given known or estimated value of $\sigma$, we can obtain $H$ and $K$. 
+
+## CUSUM Chart Design
+
+```{r, echo=FALSE, out.width="60%",out.height="70%",fig.align='center'}
+knitr::include_graphics("CUSUM_ARL.jpg")
+```
+
+## CUSUM Chart Usage 
+
+- So far we have seen that CUSUM can be used for monitoring sample means when $n \geq 1$. 
+
+\vskip 0.10 in
+
+- However, CUSUM can be used for other statistics as well, including the sample standard deviation, sample proportions, number of nonconforming items, etc.
+
+\vskip 0.10 in
+
+- It can also be used for variable sample sizes by standardizing observations. 
+
+## CUSUM ARL Estimation
+
+- Unlike the Shewhart-style charts, the plotting statistics for the CUSUM chart are not independent of each other. Thus, the typical $ARL_0 = 1/\alpha$ and $ARL_1 = 1/(1-\beta)$ calculations aren't valid.
+
+\vskip 0.10 in
+
+- Estimating ARL for CUSUM charts can be quite complicated. However, we do have some rough estimates that we can use in Phase I when making decisions about chart construction. 
+
+\vskip 0.10 in
+
+- For a one-sided CUSUM, Siegmund (1985) provided an approximation:
+
+## CUSUM ARL Estimation 
+
+$$ ARL = \frac{\exp(-2\Delta b) + 2\Delta b - 1}{2\Delta^2} $$
+
+- where $\Delta = \delta^* - k$ for the upper CUSUM, $\Delta = -\delta^* - k$ for the lower CUSUM, $b = h + 1.166$ and $\delta^* = (\mu_1 - \mu_0)/\sigma$. 
+
+\vskip 0.10 in
+
+- Then, if we're using a two-sided CUSUM, we can estimate the overall ARL by:
+
+$$ \frac{1}{ARL} = \frac{1}{ARL^{+}} + \frac{1}{ARL^{-}} $$
+
+## CUSUM ARL Estimation
+
+- Let's use the piston rings Phase I data to estimate the $ARL_1$ where we want to protect against shifts of $1.5\sigma$ in either the positive or negative direction. 
