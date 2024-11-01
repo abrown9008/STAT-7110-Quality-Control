@@ -1,0 +1,119 @@
+---
+title: "Control Charts for Multiple Stream Processes"
+author: "Dr. Austin Brown"
+institute: "Kennesaw State University"
+output: beamer_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T,include=T,warning=F,message=F,tidy=F)
+```
+
+## Introduction
+
+- As you've likely noticed to this point in the class, there are a lot of different types of control charts that are designed to be used in specific situations. 
+
+\vskip 0.10 in
+
+- Recently, we've talked about multivariate control charting techniques including Hotelling's $T^2$ chart and the MEWMA chart.
+
+\vskip 0.10 in
+
+- This and other multivariate control charts are used in situations where we want to jointly monitor several processes and assume there is potentially some \textit{degree of correlation} between the processes.
+
+## Introduction
+
+- There are a special set of control charts which have been designed to do something similar to the multivariate control charts, except they (typically) assume independence between the monitored processes.
+
+\vskip 0.10 in
+
+- Imagine, for example, a factory where bolts are manufactured. If it's a large enough operation, it's not farfetched to assume that they have several machines manufacturing the exact same type of bolt.
+
+\vskip 0.10 in
+
+- Consequently, we would imagine that the target value of the quality characteristic being monitored (say diameter, for example) is going to be identical for all the machines manufacturing these bolts. 
+
+## Introduction
+
+- Such a scenario is commonly referred to as a "multiple stream process (MSP)" and control charts have been developed to be used in these scenarios. 
+
+\vskip 0.10 in
+
+- Note, the traditional MSP charts are variations of the Shewhart $\bar{X}$-chart and are thus used in situations where the quality characteristic being monitored is a quantitative, continuous variable.
+
+## Boyd's Group Control Chart
+
+- Boyd (1950) proposed the first (and most commonly used) MSP control chart. As mentioned, it is based on the $\bar{X}$-chart.
+
+\vskip 0.10 in
+
+- Suppose we have $s$ streams. In Phase I, exactly like with the Shewhart $\bar{X}$ chart, we take $m$ samples of size $n$ from \underline{each} stream to help us calculate the control limits.
+
+\vskip 0.10 in
+
+- At each time point for each stream, you calculate a sample mean and a sample range.
+
+## Boyd's Group Control Chart
+
+- We use the grand mean and and overall mean of the ranges as we have done previously.
+
+\vskip 0.10 in
+
+- In fact, we actually calculate the control limits as we would if we were monitoring a univariate process:
+
+$$ UCL = \bar{\bar{x}} + A_2\bar{R} $$
+$$ LCL = \bar{\bar{x}} - A_2\bar{R} $$
+
+
+- where $A_2$ is a control charting constant and we use our sample size of $n$ to find the value.
+
+## Boyd's Group Control Chart
+
+- But what's a key difference between Boyd's GCC and the Shewhart $\bar{X}$-chart is the plotting statistic. 
+
+\vskip 0.10 in
+
+- Here, we plot both the minimum and maximum sample mean obtained at a particular time point. 
+
+\vskip 0.10 in
+
+- If one or both of the means exceed the control limits, then that is an out-of-control signal. 
+
+## Boyd's Group Control Chart
+
+- Let's consider an example. Suppose we own several car washes across Cobb County. We want to monitor the amount of liquid hot wax used (in gallons) per day at each of our five locations. 
+
+\vskip 0.10 in
+
+- We take a random sample of size $n=5$ days from each of the previous $m=25$ weeks from each of our $s=5$ locations and we want to put together a GCC. The data are contained in the CarWash.xlsx file. 
+
+## Boyd's Group Control Chart
+
+- There are some fairly significant limitations to Boyd's GCC:
+
+1. May not be effective when $s$ gets large
+2. Only consider two data points (the extremes)
+3. The minimum and maximum values have non-normal distributions
+    - Order statistics don't always have the same distribution as the underlying random variable.
+4. Trouble using runs rules
+5. In the presence of non-normal data, huge deterioration in $ARL_1$ (Brown and Schaffer, 2020).
+
+## A Control Chart for Each Stream Approach
+
+- There have been other control charts developed for MSP monitoring (e.g., Mortell and Runger, 1995; Alt and Montgomery, 1996; Epprechet et al, 2011; Vincenten et al, 2018). 
+
+\vskip 0.10 in
+
+- In my opinion, the most straightforward approach is to use that suggested by Mences et al (2008).
+
+\vskip 0.10 in
+
+- In this paper, the authors suggest using a control chart for each stream citing the fact that most control charting is done via computer nowadays anyway, so the argument against that approach doesn't carry as much weight as it once did.
+
+## A Control Chart for Each Stream Approach
+
+- They further allow for each stream to potentially have a different $\mu_0$ and also take into consideration the problem of multiple comparisons by adjusting the control limits after calculating the inter-stream correlation. 
+
+\vskip 0.10 in
+
+- So basically, everything we did for Shewhart $\bar{X}$ we also do here, with the only extra calculation being the correlation computation.

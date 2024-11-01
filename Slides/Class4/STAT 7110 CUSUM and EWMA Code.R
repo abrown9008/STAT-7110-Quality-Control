@@ -66,6 +66,7 @@ CUSUM_df <- CUSUM_df |>
 CUSUM_df |>
   ggplot(aes(x=1:nrow(CUSUM_df))) +
   geom_line(aes(y=C_plus1),color="blue") +
+  geom_point(aes(y=C_plus1),color='blue') +
   geom_line(aes(y=C_minus1),color="red") +
   geom_hline(yintercept=h,linetype="dashed") +
   labs(title="CUSUM Chart for Soda Bottles",
@@ -161,16 +162,12 @@ customer_hold |>
 
 ## QCC ##
 
-ewma(customer_hold,center=10,sigma = 1,lambda=0.2,nsigmas=2.962)
-
-## We can see that around time point 7, the process begins shifting upwards. ##
+ewma(customer_hold$Time,center=10,sigma = 1,lambda=0.2,nsigmas=2.962)
 
 ## Let's try this with CUSUM ##
 
 cusum(customer_hold$Time,sizes=1,center=10,sigma=1,
       se.shift=k*2,decision.interval = 5,plot=T)
-
-## Not quite as sensitive! ##
 
 ## Let's try this with the second dataset (Sheet 2 of EWMA Datasets) ##
 ## Suppose we're the Scranton branch of Dunder-Mifflin. 
