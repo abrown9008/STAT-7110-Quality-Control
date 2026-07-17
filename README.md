@@ -8,7 +8,7 @@ Welcome to the course repository for Dr. Austin Brown's **STAT 7110: Statistical
  
 If this is your first time working with Jupyter notebooks or Google Colab, start here:
  
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/YOUR_USERNAME/STAT-7110-Quality-Control/blob/main/Slides/Week-0-Getting-Started/Getting Started with GitHub and Google Colab.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Slides/Week-0-Getting-Started/Getting Started with GitHub and Google Colab.ipynb)
  
 **Week 0 — Getting Started:** Environment setup and assignment completion/submission notes.
  
