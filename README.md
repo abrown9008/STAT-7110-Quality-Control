@@ -22,6 +22,7 @@ If this is your first time working with Jupyter notebooks or Google Colab, start
 | 2 |Shewhart Charts for Variables | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Slides/Week-2-Shewhart-Charts-for-Variables/Shewhart-Charts-for-Variables.ipynb) |
 | 3 | $S$ & $S^2$ Charts and a Deeper Dive into Process Capability | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Slides/Week-3-S2-Charts-and-Process-Capability/S2-Chart-and-Process-Capability.ipynb) |
 | 4 | CUSUM Charts | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Slides/Week-4-CUSUM/CUSUM-Charts.ipynb) |
+| 5 | EWMA Charts | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Slides/Week-5-EWMA/EWMA-Charts.ipynb) |
  
 ---
  
