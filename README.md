@@ -19,8 +19,8 @@ If this is your first time working with Jupyter notebooks or Google Colab, start
 | Week | Topic | Open in Colab |
 |------|-------|---------------|
 | 1 | Introduction to Quality Control | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Slides/Week-1-Intro-to-Quality-Control/Week-1-Intro-to-Quality-Control.ipynb) |
-| 2 | _Coming soon_ | |
-| 3 | _Coming soon_ | |
+| 2 |Shewhart Charts for Variables | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Slides/Week-2-Shewhart-Charts-for-Variables/Shewhart-Charts-for-Variables.ipynb) |
+| 3 | $S$ & $S^2$ Charts and a Deeper Dive into Process Capability | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Slides/Week-3-S2-Charts-and-Process-Capability/S2-Chart-and-Process-Capability.ipynb) |
  
 ---
  
