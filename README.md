@@ -25,6 +25,8 @@ If this is your first time working with Jupyter notebooks or Google Colab, start
 | 5 | EWMA Charts | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Slides/Week-5-EWMA/EWMA-Charts.ipynb) |
 | 6 | Monitoring Fraction Nonconforming | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Slides/Week-6-Fraction-Nonconforming/Fraction-Nonconforming-Charts.ipynb) |
 | 7 | Monitoring Number of Nonconformities | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Slides/Week-7-Nonconformity-Counts/Number-of-Nonconformities.ipynb) |
+| 8 | Introduction to Multivariate SPC | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Slides/Week-8-Intro-to-Multivariate-SPC/T2-Chart.ipynb) |
+| 9 | The MEWMA Chart | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Slides/Week-9-MEWMA-Chart/MEWMA-Chart.ipynb) 
  
 ---
  
