@@ -1,0 +1,168 @@
+---
+title: "Nonparametric Quality Control Charts"
+author: "Dr. Austin Brown"
+institute: "Kennesaw State University"
+output: beamer_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Introduction
+
+- Throughout this semester, it has hopefully become clear the importance of assessing the assumptions of the various control charting schemes in Phase I, prior to Phase II implementation.
+
+\vskip 0.10 in
+
+- As we've discussed, if the distributional assumption of a particular charting scheme is not met, it can have adverse effects on the average run length and false alarm rate, not to mention any process capability analyses being performed.
+
+\vskip 0.10 in
+
+- We spend a lot of time talking about the importance of assumption checking, both in this class and in others, but somewhat less time discussing what we do when the assumptions fail. 
+
+## Introduction
+
+- So the question is: if the distributional assumption for a control chart are not met, what do we do? How can we use quality control methods?
+
+\vskip 0.10 in
+
+- Fortunately, researchers have developed nonparametric (sometimes also called "distribution-free") methods that can be used when (a) the distributional assumption is not met or (b) cannot be reasonably be verified (e.g., we don't have any historical data). 
+
+\vskip 0.10 in
+
+- For a very thorough overview of advances in nonparametric quality control charts, I'd recommend the Chakraborti and Graham text mentioned in the syllabus as well as several overview papers written by Chakraborti (2001, 2014, & 2019).
+
+## Introduction
+
+- Over the past 25 years, there have been big advances in nonparametric control charts, both univariate and multivariate (part of this has to do with advances in computing). 
+
+\vskip 0.10 in
+
+- There could be a full class on nonparametric SPC and methods associated with nonparametric SPC because of all these advances.
+
+\vskip 0.10 in
+
+- Consequently, today's class is going to be an introduction to one classical nonparametric control charting technique along with a couple of examples. 
+
+## Bakir & Reynolds' Wilcoxon Signed Rank CUSUM
+
+- One of the very first Phase II nonparametric univariate control charts proposed was in 1979 by Bakir & Reynolds (Reynolds was actually Dr VanBrackle's dissertation advisor at Virginia Tech).
+    - <https://www.tandfonline.com/doi/abs/10.1080/00401706.1979.10489747?journalCode=utch20>
+
+\vskip 0.10 in
+
+- This control chart, and many developed subsequently, use variants of classical nonparametric test statistics in a control charting framework. 
+
+\vskip 0.10 in
+
+- Bakir & Reynold's proposed using the Wilcoxon Signed Rank test statistic (which tests the median and not the mean) in a CUSUM type of chart. We're going to explore their one-sided version of the control chart (although a two-sided version can also be implemented).
+
+## Bakir & Reynolds' Wilcoxon Signed Rank CUSUM
+
+- Let's assume we know the median of our process or that a good estimate is available (we'll denote it $\tilde{\mu}_0$).
+
+\vskip 0.10 in
+
+- Then, at time $t$, we take a random sample of size $n$ (we'll denote it $x_{1t}, x_{2t},\dots,x_{nt}$. 
+
+\vskip 0.10 in
+
+- Now, we need to rank the absolute values of our observations in ascending order (so the minimum-valued observation has rank 1, the second smallest observation has rank 2, and so on). We'll denote the rank of a particular observation as $R_{it}$, $i = 1, 2, \dots n$, and $t = 1, 2, ..$. 
+
+## Bakir & Reynolds' Wilcoxon Signed Rank CUSUM
+
+- Now, we also need to compare each observation to $\tilde{\mu}_0$ within an indicator function. For an observation from the sample at time point $t$, $x_{it}$, we'll define the indicator function to be:
+
+$$ I(x_{it} > \tilde{\mu}_0) = \begin{cases} 1 & \text{if $x_{it} > \tilde{\mu}_0$} \\
+                                             -1 & \text{if $x_{it} < \tilde{\mu}_0$} \\ \end{cases} $$
+                                             
+
+## Bakir & Reynolds' Wilcoxon Signed Rank CUSUM
+
+- The signed rank statistic is then defined as:
+
+$$ SR_t = \sum_{i = 1}^{n}I(x_{it} > \tilde{\mu}_0)R_{it} $$
+
+- We would expect that if the process is in-control (meaning that $\tilde{\mu}_0$ really is the process median) $SR_t$ should be 0. The further $SR_t$ gets from 0 in either the positive or negative direction, the more evidence we have that the median has shifted.
+
+\vskip 0.10 in
+
+- This is the traditional WSR Test. How do we implement this in a one-sided CUSUM?
+
+## Bakir & Reynolds' Wilcoxon Signed Rank CUSUM
+
+- Bakir & Reynolds proposed using a "slack value" $k$ like we used in the original tabular CUSUM. We take the difference between each $SR_t$ and $k$ and sum up those deviations. We'll define this as $T_t$:
+
+
+$$ T_t = \sum_{j=1}^{t}(SR_j - k) $$
+
+- The final plotting statistic for a one-sided, upper CUSUM takes the most recent $T_t$ and subtracts from it the minimum $T_t$ observed to that point. We'll define the plotting statistic as $P_t$:
+
+$$ P_t = T_t - \min(0,T_1,T_2,\dots,T_t) $$
+
+## Bakir & Reynolds' Wilcoxon Signed Rank CUSUM
+
+- If $P_t \geq h$, then this suggests the process is out-of-control, just like the regular CUSUM. 
+
+\vskip 0.10 in
+
+- Okay, so that's how the chart works. How do we choose values of $k$ and $h$? 
+
+\vskip 0.10 in
+
+- It's a little different here than it is for a CUSUM based on normality as the WSR Test statistics' distribution varies based on the size of the sample. 
+
+\vskip 0.10 in 
+
+- Bakir and Reynolds give some general guidance on the choice of $k$ and $h$ via tables in their manuscript.
+
+## Bakir & Reynolds' Wilcoxon Signed Rank CUSUM
+
+- In general, $k$ should be chosen to be a larger value in the case where the shift you're wanting to protect against is also large. We then choose $h$ to correspond with a value of $k$ such that our $ARL_0$ meets a nominal threshold we also choose (say 370, 500, etc.)
+
+## Bakir & Reynolds' Wilcoxon Signed Rank CUSUM
+
+```{r, echo=FALSE, out.width="95%",out.height="60%",fig.cap="From Bakir and Reynolds (1979)"}
+knitr::include_graphics("k_values.jpg")
+```
+
+## Bakir & Reynolds' Wilcoxon Signed Rank CUSUM
+
+```{r, echo=FALSE, out.width="95%",out.height="60%",fig.cap="From Bakir and Reynolds (1979)"}
+knitr::include_graphics("h_values.jpg")
+```
+
+## Bakir & Reynolds' Wilcoxon Signed Rank CUSUM
+
+- So basically, from everything shown here, it looks like if we were in the design phase of the DMAIC process and we wanted an in-control $ARL_0 \approx 370$, we ought to choose our sample size to be $n=6$, our $k$ to be 15 and our $h$ to be 6. 
+
+\vskip 0.10 in
+
+- Let's run through an example problem! Suppose we are a dentist's office. It is known that getting a checkup every six months is the general recommendation. If we get a new patient and they don't return within 1 year, this generally means they've selected another provider, lost their dental insurance, or had something else occur to where we can assume they're not coming back.
+
+\vskip 0.10 in
+
+- Obviously, in order for us to stay in business, pay off dental school loans, as well as pay our employees, we need to do our best to retain as many patients as possible.
+
+## Bakir & Reynolds' Wilcoxon Signed Rank CUSUM
+
+- Let's say that somehow we know that on average, 50 new patients return within 1 year (about 4.17 per month). We also somehow know that the median number of months between successive visits is about $\tilde{\mu}_0 \approx 2.89$ months. We want to set up a control chart to monitor the time between successive dental visits for new patients, in months.
+
+\vskip 0.10 in
+
+- From data from 2 years ago, let's take random samples of new patients of size $n=6$ from each of the 52 weeks and set up Bakir \& Reynolds' CUSUM using the aforementioned chart parameters. Data are contained in the dentist Excel spreadsheet in D2L. Note, data measurements are in months. 
+
+## Bakir & Reynolds' Wilcoxon Signed Rank CUSUM
+
+- Now, let's look at another example. Suppose we're now back at Dunkin Donuts and we want to monitor the level of customer satisfaction with our coffee. 
+
+\vskip 0.10 in
+
+- For 30 consecutive days, we randomly survey $n=6$ customers and ask them how satisfied they are with their coffee on a scale from 1 (very satisfied) to 5 (very dissatisfied). If we have evidence the median level of satisfaction has exceeded 3.5 (remember, bigger numbers imply less satisfaction), then all employees are subjected to a weekend-long customer service training.
+
+\vskip 0.10 in
+
+- Data are contained in the Dunkin Excel spreadsheet.
+
+

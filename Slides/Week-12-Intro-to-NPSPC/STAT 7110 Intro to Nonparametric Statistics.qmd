@@ -1,0 +1,135 @@
+---
+title: "An Introduction to Nonparametric Statistics"
+author: "Dr Austin R Brown"
+institute: "Kennesaw State University"
+format: beamer
+editor: visual
+---
+
+## Introduction
+
+- Suppose I hypothesize that the mean weight of high school football players in Georgia is greater than 163 pounds. 
+
+\vskip 0.10 in
+
+- To test this hypothesis, suppose I collect a random sample of football players and find their mean weight and their sample standard deviation.
+
+\vskip 0.10 in
+
+- Generally speaking, we learned in our introductory statistics courses that we would use a one-population $t$-test to test this hypothesis.
+
+## Introduction
+
+- However, one thing that we did not discuss in our introductory statistics courses is that the $t$-test assumes that the data is normally distributed or that the sample size is large enough for the Central Limit Theorem to apply.
+
+\vskip 0.10 in
+
+- What if neither of these assumptions hold? Can we just ignore them and move on?
+
+\vskip 0.10 in
+
+- Let's see why that might not be a good idea.
+
+## Introduction
+
+- Remember from earlier in the semester that the main way we compare competing process control charts is by calculating ARL, which is a function of statistical power.
+
+\vskip 0.10 in
+
+- In words, statistical power is the probability of a hypothesis test (which a control chart is just an application of hypothesis tests) rejecting the null hypothesis for a given (read, specific) alternative hypothesis.
+
+## Introduction
+
+- So for a given test statistic, $T$, and a given significance level, $\alpha$, the power of a hypothesis test is given by:
+
+$$ \text{Power} = P(T > t_{\alpha} | H_1 \space \text{is true}) $$
+
+- where $t_{\alpha}$ is the critical value of the test statistic for a given significance level, $\alpha$.
+
+## Introduction 
+
+- Let's do a little simulation to estimate the power of a one-population $t$-test when the data is and is not normally distributed.
+
+
+## Introduction
+
+- As we can see, the power of the $t$-test can be severely impacted when the data is not normally distributed.
+
+\vskip 0.10 in
+
+- But now we run into a new problem! If the data are non-normally distributed or if I am unable to reasonably assume that the data is normally distributed, how do I perform hypothesis tests?
+
+\vskip 0.10 in
+
+- \textit{Nonparametric Statistics} to the rescue!
+
+## Alternatives to One-Population $t$-Test
+
+- One alternative nonparametric test to the one-population $t$-test is called the \textit{Sign Test}.
+
+\vskip 0.10 in
+
+- First, the main difference with most every nonparametric method is that rather than testing the mean, we test the median.
+
+$$ H_0: \tilde{\mu}_0 = C \quad \text{vs.} \quad H_1: \tilde{\mu}_0 \neq C $$
+
+## Alternatives to One-Population $t$-Test
+
+- Suppose we take a random sample of size $n$. The test statistic for the Sign Test is given by:
+
+$$ T = \sum_{i=1}^{n} I(X_i > C) $$
+
+- where:
+
+$$ I(X_i > C) = \begin{cases} 1 & \text{if} \space X_i > C \\ 0 & \text{if} \space X_i \leq C \end{cases} $$
+
+## Alternatives to One-Population $t$-Test
+
+- If $H_0$ is true and $\tilde{\mu} = C$, then we would expect $T$ to be approximately $n/2$.
+    - Half of the observations greater than $C$ and half less than $C$.
+    
+\vskip 0.10 in
+
+- This suggests that if $H_0$ is true, then:
+
+$$ T \sim \text{Binomial}(n,0.5) $$
+
+## Alternatives to One-Population $t$-Test
+
+- To calculate the P-Value for the Sign Test, we would calculate:
+
+$$ P = P(|T \geq t_\alpha| | H_0 \space \text{is true}) $$
+
+## Alternatives to One-Population $t$-Test
+
+- Let's look at an example with the Sign Test, as well as its power, using R.
+
+## Alternatives to One-Population $t$-Test
+
+- While the Sign Test is a good alternative to the one-population $t$-test, it is not the only alternative.
+
+\vskip 0.10 in
+
+- Another (more famous and widely-used) alternative is the \textit{Wilcoxon Signed-Rank Test}.
+
+\vskip 0.10 in
+
+- Like the Sign Test, the WSRT tests the median of a population.
+
+## Alternatives to One-Population $t$-Test
+
+- To calculate the test statistic for the WSRT, we would:
+
+    1. Rank the absolute values of the differences between the sample values and the hypothesized median.
+    
+    2. Sum the ranks of the positive differences.
+    
+    3. Calculate the test statistic as the sum of the ranks of the positive differences.
+    
+\vskip 0.10 in
+
+- Unlike the Sign Test, however, the WSRT's null distribution is more complicated and is based on the total possible number of combinations of observed signed ranks.
+
+## Alternatives to One-Population $t$-Test
+
+- What do I mean by this? Let's look at how the null distribution of the WSRT statistic would be calculated and why we usually use an approximation as the sample size increases.
