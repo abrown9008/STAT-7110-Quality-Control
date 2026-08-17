@@ -30,7 +30,7 @@ If this is your first time working with Jupyter notebooks or Google Colab, start
 | 10 | Introduction to Multiple Stream Processes | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Slides/Week-10-Multiple-Stream-Processes/Multiple-Stream-Processes.ipynb) |
 | 11 | Introduction to Nonparametric Statistics | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Slides/Week-11-Intro-to-NP-Statistics/Intro-to-NP-Statistics.ipynb) |
 | 12 | Introduction to Nonparametric SPC | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Slides/Week-11-Intro-to-NPSPC/NPSPC.ipynb) |
-| 13 | Simulation | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Slides/Week-13-Simulation/Monte-Carlo-Simulation.ipynb)
+| 13 | Simulation | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Slides/Week-13-Simulation/Monte-Carlo-Simulation.ipynb) |
  
 ---
  
@@ -38,9 +38,9 @@ If this is your first time working with Jupyter notebooks or Google Colab, start
  
 Assignments should be completed in Colab and uploaded to the appropriate D2L dropbox. You are allowed to give me the link to your assignment in your forked repo, but note, your assignment will be publicly available. 
  
-| Assignment | Description | Open in Colab |
+| Assignment | Due Date | Open in Colab |
 |------------|-------------|---------------|
-| Assignment 1 | _Description coming soon_ 
+| Assignment 1 | September 18, 2026 | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Assigments/HW1/STAT-7110-HW1.ipynb) |   
  
 ---
  
