@@ -40,7 +40,7 @@ Assignments should be completed in Colab and uploaded to the appropriate D2L dro
  
 | Assignment | Due Date | Open in Colab |
 |------------|-------------|---------------|
-| Assignment 1 | September 18, 2026 | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Assigments/HW1/STAT-7110-HW1.ipynb) |   
+| Assignment 1 | September 18, 2026 | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Assignments/HW1/STAT-7110-HW1.ipynb) |   
  
 ---
  
