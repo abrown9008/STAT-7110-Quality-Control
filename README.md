@@ -49,9 +49,9 @@ Assignments should be completed in Colab and uploaded to the appropriate D2L dro
  
 ## 📋 Final Exam
  
-| Exam | Description | Open in Colab |
+| Exam | Due Date | Open in Colab |
 |------|-------------|---------------|
-| Take-Home Exam 1 | _Description coming soon_ 
+| Final | December 11, 2026 | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Assignments/Final-Exam/STAT-7110-Final-Exam.ipynb) | 
  
 ---
  
