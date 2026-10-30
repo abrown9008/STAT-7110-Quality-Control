@@ -42,7 +42,7 @@ Assignments should be completed in Colab and uploaded to the appropriate D2L dro
 |------------|-------------|---------------|
 | Assignment 1 | September 18, 2026 | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Assignments/HW1/STAT-7110-HW1.ipynb) |   
 | Assignment 2 | October 9, 2026 | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Assignments/HW2/STAT-7110-HW2.ipynb) |
-| Assignment 3 | October 23, 2026 | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Assignments/HW3/STAT-7110-HW3.ipynb) |
+| Assignment 3 | October 30, 2026 | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Assignments/HW3/STAT-7110-HW3.ipynb) |
 | Assignment 4 | November 20, 2026 | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/abrown9008/STAT-7110-Quality-Control/blob/main/Assignments/HW4/STAT-7110-HW4.ipynb) |
  
 ---
